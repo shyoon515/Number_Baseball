@@ -56,14 +56,14 @@ def com_guess():
     print("-"*100+"\n컴퓨터가 유추 중입니다. 잠시만 기다려주십시오...\n")
     time.sleep(1)
     print("\n컴퓨터의 "+str(com_trial)+"번째 유추: "+str(answer_cand[guess_index]))
-    com_trial += 1
+
 
     strike = int(input("\nStrike(스트라이크)의 개수를 입력 후 Enter 키를 누르세요. Strike가 없거나 OUT(아웃)이라면 '0'을 입력합니다. (ex: 1S1B이면 '1'을 입력.)\n"))
     if strike == 4:
         print("\n컴퓨터가 정답을 구하였습니다. 답은 "+str(answer_cand[guess_index])+"입니다. "+str(com_trial)+"번 만에 맞추었습니다. 프로그램을 종료합니다.\n")
         print("컴퓨터의 답: ", com_answer)
         return 0
-    
+    com_trial += 1
     ball = int(input("\nBall(볼)의 개수를 입력 후 Enter 키를 누르세요. OUT(아웃)이라면 '0'을 입력합니다. (ex: 1S2B이면 '2'를 입력.)\n"))
     
     print("\n컴퓨터가 계산 중입니다. 잠시만 기다려 주십시오...\n")
