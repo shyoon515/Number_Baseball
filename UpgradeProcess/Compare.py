@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 from matplotlib.image import imread
 import pandas as pd
 
+
+# 프로그램을 시작, 종료하는 funciton이 존재해야 함. 종료 function에는 모든 초기값들이 초기화되어야 한다. 시작 function은 컴퓨터의 시도 횟수와 guess 추이를 반환해야 한다.
 def auto_execute(start_func, end_func, repeat):
     list_of_guess_log = []
 

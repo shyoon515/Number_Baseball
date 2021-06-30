@@ -30,7 +30,7 @@ def usr_guess():
     global usr_trial
     guess = int(input("-"*100+"\n사용자의 "+str(usr_trial)+"번째 유추입니다. 유추할 숫자를 입력하세요.\n"))
     usr_trial += 1
-    if guess>=1000 and guess<=9999:
+    if guess>=0 and guess<=9999:
         thou, hund, ten, one = object_generator(guess)
         if redundancy_check(thou.num, hund.num, ten.num, one.num) == 0:
             sbo = judge_SBO(guess, com_answer)
@@ -55,13 +55,13 @@ def com_guess():
     guess_index = random.randrange(len(answer_cand))
     print("-"*100+"\n컴퓨터가 유추 중입니다. 잠시만 기다려주십시오...\n")
     time.sleep(1)
-    print("\n컴퓨터의 "+str(com_trial)+"번째 유추: "+str(answer_cand[guess_index]))
+    print("\n컴퓨터의 %d번째 유추: %04d" % (com_trial, answer_cand[guess_index]))
 
 
     strike = int(input("\nStrike(스트라이크)의 개수를 입력 후 Enter 키를 누르세요. Strike가 없거나 OUT(아웃)이라면 '0'을 입력합니다. (ex: 1S1B이면 '1'을 입력.)\n"))
     if strike == 4:
-        print("\n컴퓨터가 정답을 구하였습니다. 답은 "+str(answer_cand[guess_index])+"입니다. "+str(com_trial)+"번 만에 맞추었습니다. 프로그램을 종료합니다.\n")
-        print("컴퓨터의 답: ", com_answer)
+        print("\n컴퓨터가 정답을 구하였습니다. 답은 %04d입니다. %d번 만에 맞추었습니다. 프로그램을 종료합니다. \n" % (answer_cand[guess_index], com_trial))
+        print("컴퓨터의 답: %04d" % com_answer)
         return 0
     com_trial += 1
     ball = int(input("\nBall(볼)의 개수를 입력 후 Enter 키를 누르세요. OUT(아웃)이라면 '0'을 입력합니다. (ex: 1S2B이면 '2'를 입력.)\n"))
@@ -106,7 +106,7 @@ def redundancy_check(num1, num2, num3, num4):
 
 # 4자리 숫자를 받으면 class Numbers의 객체를 tuple에 담아 반환해주는 함수.
 def object_generator(num):
-    if num>=1000 and num<=9999:
+    if num>=0 and num<=9999:
         place_four = Numbers(num//1000, 1000)
         num -= Numbers.real_value(place_four)
         place_three = Numbers(num//100, 100)
@@ -141,7 +141,7 @@ def judge_SBO(num1, num2):
 
 
 
-for i in range(1000, 10000):
+for i in range(0, 10000):
     thou, hund, ten, one = object_generator(i)
     result = redundancy_check(thou.num, hund.num, ten.num, one.num)
     if result == 1:
