@@ -1,8 +1,6 @@
-import numpy as np
-import pandas as pd
-from tabulate import tabulate
 import random
-import time
+
+
 
 class Numbers:
     def __init__(self, num, place_value):
@@ -17,6 +15,7 @@ class Numbers:
     
     def real_value(self):
         return self.place_value*self.num
+
 
 # 숫자의 중복을 체크하는 함수. 만약 중복이 있으면 1, 없으면 0을 반환
 def redundancy_check(num1, num2, num3, num4):
@@ -69,29 +68,80 @@ def com_guess():
     global com_trial
     global com_answer
     global guess_log
+    global first_guess
     
-    guess_index = random.randrange(len(answer_cand))
-    # print("\n컴퓨터의 %d번째 유추: %04d" % (com_trial, answer_cand[guess_index]))
+    if com_trial == 2 and len(answer_cand) >= 10:
+        thou, hund, ten, one = object_generator(first_guess)
+        nums = [x for x in range(10)]
 
-    strike, ball = judge_SBO(answer_cand[guess_index], com_answer)
-    if strike == 4:
-        # print("\n컴퓨터가 정답을 구하였습니다. 답은 "+str(answer_cand[guess_index])+"입니다. "+str(com_trial)+"번 만에 맞추었습니다. 프로그램을 종료합니다.\n")
-        # print("컴퓨터의 답: %04d" % com_answer)
-        return 0
-    com_trial += 1
-    temp_list = []
-    guess_sbo = (strike, ball)
-    for i, num in enumerate(answer_cand):
-        sbo = judge_SBO(num, answer_cand[guess_index])
-        if guess_sbo == sbo:
-            temp_list.append(num)
-        else:
-            continue
-    answer_cand = temp_list
-    # print("컴퓨터는 후보 정답을 ", len(temp_list), "개로 추려내었습니다!")
-    guess_log.append(len(temp_list))
-    # print(guess_log)
-    return 1
+        nums.remove(thou.num)
+        nums.remove(hund.num)
+        nums.remove(ten.num)
+        nums.remove(one.num)
+
+        temp_index = random.randrange(len(nums))
+        thou2 = Numbers(nums[temp_index], 1000)
+        nums.remove(thou2.num)
+
+        temp_index = random.randrange(len(nums))
+        hund2 = Numbers(nums[temp_index], 100)
+        nums.remove(hund2.num)
+        
+        temp_index = random.randrange(len(nums))
+        ten2 = Numbers(nums[temp_index], 10)
+        nums.remove(ten2.num)
+
+        temp_index = random.randrange(len(nums))
+        one2 = Numbers(nums[temp_index], 1)
+        nums.remove(one2.num)
+
+        guess = (thou2 + hund2) + (ten2 + one2)
+        # print(guess)
+        strike, ball = judge_SBO(guess, com_answer)
+        
+        com_trial += 1
+        temp_list = []
+        guess_sbo = (strike, ball)
+        for i, num in enumerate(answer_cand):
+            sbo = judge_SBO(num, guess)
+            if guess_sbo == sbo:
+                temp_list.append(num)
+            else:
+                continue
+        answer_cand = temp_list
+        # print("컴퓨터는 후보 정답을 ", len(temp_list), "개로 추려내었습니다!")
+        guess_log.append(len(temp_list))
+        # print(guess_log)
+
+        return 1
+        
+        
+    else:
+        guess_index = random.randrange(len(answer_cand))
+        # print("\n컴퓨터의 %d번째 유추: %04d" % (com_trial, answer_cand[guess_index]))
+        strike, ball = judge_SBO(answer_cand[guess_index], com_answer)
+        if com_trial == 1:
+            first_guess = answer_cand[guess_index]
+        
+        if strike == 4:
+            # print("\n컴퓨터가 정답을 구하였습니다. 답은 "+str(answer_cand[guess_index])+"입니다. "+str(com_trial)+"번 만에 맞추었습니다. 프로그램을 종료합니다.\n")
+            # print("컴퓨터의 답: %04d" % com_answer)
+            return 0
+        com_trial += 1
+        temp_list = []
+        guess_sbo = (strike, ball)
+        for i, num in enumerate(answer_cand):
+            sbo = judge_SBO(num, answer_cand[guess_index])
+            if guess_sbo == sbo:
+                temp_list.append(num)
+            else:
+                continue
+        answer_cand = temp_list
+        # print("컴퓨터는 후보 정답을 ", len(temp_list), "개로 추려내었습니다!")
+        guess_log.append(len(temp_list))
+        # print(guess_log)
+
+        return 1
 
 
 
@@ -99,6 +149,7 @@ def com_guess():
 
 answer_cand = []
 com_trial = 1
+first_guess = 0
 
 for i in range(10000):
     thou, hund, ten, one = object_generator(i)
@@ -116,7 +167,6 @@ guess_log = [len(answer_cand)]
 
 def ProgramStart():
     global guess_log
-    # print(com_answer)
     status = 1
     while status == 1:
         status = com_guess()
@@ -127,6 +177,7 @@ def ProgramEnd():
     global com_answer
     global com_trial
     global guess_log
+    global first_guess
     
     answer_cand = []
     
@@ -143,3 +194,5 @@ def ProgramEnd():
     
     com_trial=1
     guess_log = [len(answer_cand)]
+    first_guess = 0
+

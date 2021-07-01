@@ -1,6 +1,3 @@
-import numpy as np
-import pandas as pd
-from tabulate import tabulate
 import random
 import time
 

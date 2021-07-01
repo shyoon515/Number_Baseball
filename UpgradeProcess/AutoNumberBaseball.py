@@ -1,8 +1,4 @@
-import numpy as np
-import pandas as pd
-from tabulate import tabulate
 import random
-import time
 
 class Numbers:
     def __init__(self, num, place_value):
