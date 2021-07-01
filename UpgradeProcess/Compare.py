@@ -42,4 +42,21 @@ print('\n\n<유의수준 0.05>\n독립표본 등분산 t검정 결과(t값) : %.
 
 tresult2 = stats.ttest_ind(Ver0_attempts, Ver1_attempts, equal_var=False)
 print('\n\n<유의수준 0.05>\n독립표본 이분산 t검정 결과(t값) : %.8f \np-value : %.8f' % (tresult2))
-    
+
+fig = plt.figure(figsize=(8, 12))
+
+plt.subplot(2, 1, 1)
+plt.hist(data_of_attempt, bins, rwidth = 0.8, color='b')
+plt.xlabel('Average Attempts')
+plt.ylabel('Count')
+plt.title('Ver0 Histogram')
+plt.grid
+
+plt.subplot(2, 1, 2)
+plt.hist(data_of_attempt2, bins, rwidth = 0.8, color='g')
+plt.xlabel('Average Attempts')
+plt.ylabel('Count')
+plt.title('Ver1 Histogram')
+plt.grid
+
+plt.savefig('/workspace/Number_Baseball/UpgradeProcess/Ver_0_1_Guess_Log')
