@@ -27,8 +27,8 @@ def auto_execute(start_func, end_func, repeat):
     return attempts, total_guess
 
 
-Ver0_attempts, Ver0_total_guess = auto_execute(AutoNumberBaseball.ProgramStart, AutoNumberBaseball.ProgramEnd, 100)
-Ver1_attempts, Ver1_total_guess = auto_execute(AutoNumberBaseballVer1.ProgramStart, AutoNumberBaseballVer1.ProgramEnd, 100)
+Ver0_attempts, Ver0_total_guess = auto_execute(AutoNumberBaseball.ProgramStart, AutoNumberBaseball.ProgramEnd, 10000)
+Ver1_attempts, Ver1_total_guess = auto_execute(AutoNumberBaseballVer1.ProgramStart, AutoNumberBaseballVer1.ProgramEnd, 10000)
 
 print("-"*100)
 print("\n\nVer0의 평균 시도 횟수: %.4f\nVer1의 평균 시도 횟수: %.4f" % (np.mean(Ver0_attempts.attempt), np.mean(Ver1_attempts.attempt)))
@@ -43,20 +43,22 @@ print('\n\n<유의수준 0.05>\n독립표본 등분산 t검정 결과(t값) : %.
 tresult2 = stats.ttest_ind(Ver0_attempts, Ver1_attempts, equal_var=False)
 print('\n\n<유의수준 0.05>\n독립표본 이분산 t검정 결과(t값) : %.8f \np-value : %.8f' % (tresult2))
 
-fig = plt.figure(figsize=(8, 12))
-
-plt.subplot(2, 1, 1)
-plt.hist(data_of_attempt, bins, rwidth = 0.8, color='b')
-plt.xlabel('Average Attempts')
-plt.ylabel('Count')
-plt.title('Ver0 Histogram')
-plt.grid
-
-plt.subplot(2, 1, 2)
-plt.hist(data_of_attempt2, bins, rwidth = 0.8, color='g')
-plt.xlabel('Average Attempts')
-plt.ylabel('Count')
-plt.title('Ver1 Histogram')
-plt.grid
+    # plt.plot([0,1,2,3,4,5,6,7,8,9], list_of_guess_log[0])
+    # plt.xlabel('Attempts')
+    # plt.ylabel('Possible Answer')
+    # plt.title('Possible Answer Log of Ver 0')
+    # plt.savefig('/workspace/Number_Baseball/UpgradeProcess/Ver_0')
+print("\n")
+print(Ver0_total_guess.loc['Avrg.'])
+print("\n")
+print(Ver1_total_guess.loc['Avrg.'])
+print("\n")
+plt.plot([0,1,2,3,4,5,6,7,8,9,10,11,12,13], Ver0_total_guess.loc['Avrg.'].tolist(), color='b', label='Ver0')
+plt.plot([0,1,2,3,4,5,6,7,8,9,10,11,12,13], Ver1_total_guess.loc['Avrg.'].tolist(), color='r', label='Ver1')
+plt.xlabel('Attempts')
+plt.ylabel('Answers')
+plt.title('Ver0 and 1 Average Number of Answers: 10,000 repetitions each')
+plt.grid()
+plt.legend()
 
 plt.savefig('/workspace/Number_Baseball/UpgradeProcess/Ver_0_1_Guess_Log')
