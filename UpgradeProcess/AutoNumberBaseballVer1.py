@@ -8,13 +8,13 @@ class Numbers:
     def __init__(self, num, place_value):
         self.num = num
         self.place_value = place_value
-    
+
     def __add__(self, other):
         return self.place_value*self.num + other.place_value*other.num
-    
+
     def __str__(self):
         return "%d의 자리 수 값: %d" % (self.place_value, self.num)
-    
+
     def real_value(self):
         return self.place_value*self.num
 
@@ -29,7 +29,7 @@ def redundancy_check(num1, num2, num3, num4):
                 continue
     return 0
 
-    
+
 # 4자리 숫자를 받으면 class Numbers의 객체를 tuple에 담아 반환해주는 함수.
 def object_generator(num):
     if num>=0 and num<=9999:
@@ -51,12 +51,12 @@ def judge_SBO(num1, num2):
     num_tuple_2 = object_generator(num2)
     strike = 0
     ball = 0
-    
+
     for i in range(4):
         for j in range(4):
-            if (i==j) and (num_tuple_1[i].num == num_tuple_2[j].num):
+            if (i == j) and (num_tuple_1[i].num == num_tuple_2[j].num):
                 strike += 1
-            elif (i!=j) and (num_tuple_1[i].num == num_tuple_2[j].num):
+            elif (i != j) and (num_tuple_1[i].num == num_tuple_2[j].num):
                 ball += 1
             else:
                 continue
@@ -69,7 +69,7 @@ def com_guess():
     global com_trial
     global com_answer
     global guess_log
-    
+
     guess_index = random.randrange(len(answer_cand))
     # print("\n컴퓨터의 %d번째 유추: %04d" % (com_trial, answer_cand[guess_index]))
 
@@ -92,8 +92,6 @@ def com_guess():
     guess_log.append(len(temp_list))
     # print(guess_log)
     return 1
-
-
 
 
 
@@ -127,9 +125,9 @@ def ProgramEnd():
     global com_answer
     global com_trial
     global guess_log
-    
+
     answer_cand = []
-    
+
     for i in range(10000):
         thou, hund, ten, one = object_generator(i)
         result = redundancy_check(thou.num, hund.num, ten.num, one.num)
@@ -137,9 +135,9 @@ def ProgramEnd():
             continue
         else:
             answer_cand.append(i)
-    
+
     answer_index = random.randrange(len(answer_cand))
     com_answer = answer_cand[answer_index]
-    
-    com_trial=1
+
+    com_trial = 1
     guess_log = [len(answer_cand)]
